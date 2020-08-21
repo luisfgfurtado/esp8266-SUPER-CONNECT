@@ -1,4 +1,4 @@
-namespace Wifi_ESP8266 {
+namespace ESP8266_SUPER_CONNECT {
 
     let wifi_connected: boolean = false
     let thingspeak_connected: boolean = false
