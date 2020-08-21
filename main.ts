@@ -2,6 +2,7 @@ namespace ESP8266_SUPER_CONNECT {
 
     let wifi_connected: boolean = false
     let thingspeak_connected: boolean = false
+    let ifttt_connected:boolean = false
     let last_upload_successful: boolean = false
     let serial_str: string = ""
 
@@ -70,6 +71,29 @@ namespace ESP8266_SUPER_CONNECT {
             if (thingspeak_connected) {
                 last_upload_successful = false
                 let str: string = "GET /update?api_key=" + write_api_key + "&field1=" + n1 + "&field2=" + n2 + "&field3=" + n3 + "&field4=" + n4 + "&field5=" + n5 + "&field6=" + n6 + "&field7=" + n7 + "&field8=" + n8
+                sendAT("AT+CIPSEND=" + (str.length + 2))
+                sendAT(str, 0) // upload data
+                last_upload_successful = waitResponse("OK")
+                basic.pause(100)
+            }
+        }
+    }
+
+    /**
+    * Connect to IFTTT and call a Webhook. It would not call anything if it failed to connect to Wifi or IFTTT.
+    */
+    //% block="Trigger call to IFTTT Webhook|Event name = %event_name|Key = %key|Value 1 = %v1"
+    //% event_name.defl=your_event_name
+    //% key.defl=your_key
+    export function IFTTTWebhook (event_name: string, key: string, v1: string) {
+        if (wifi_connected && event_name != "" && key != "") {
+            ifttt_connected = false
+            sendAT("AT+CIPSTART=\"TCP\",\"maker.ifttt.com\",80", 0) // connect to website server
+            thingspeak_connected = waitResponse("OK")
+            basic.pause(100)
+            if (thingspeak_connected) {
+                last_upload_successful = false
+                let str: string = "GET /trigger/"+event_name+"/with/key/"+key+"?value1="+v1
                 sendAT("AT+CIPSEND=" + (str.length + 2))
                 sendAT(str, 0) // upload data
                 last_upload_successful = waitResponse("OK")
