@@ -82,14 +82,15 @@ namespace ESP8266_SUPER_CONNECT {
     /**
     * Connect to IFTTT and call a Webhook. It would not call anything if it failed to connect to Wifi or IFTTT.
     */
-    //% block="Trigger call to IFTTT Webhook|Event name = %event_name|Key = %key|Value = %value"
+    //% block="IFTTT Webhook|URL/IP = %ip|Event name = %event_name|Key = %key|Value = %value"
+    //% ip.defl=maker.ifttt.com
     //% event_name.defl=your_event_name
     //% key.defl=your_key
     //% value.defl=value
-    export function IFTTTWebhook (event_name: string, key: string, value: string) {
+    export function IFTTTWebhook (ip: string, event_name: string, key: string, value: string) {
         if (wifi_connected && event_name != "" && key != "") {
             ifttt_connected = false
-            sendAT("AT+CIPSTART=\"TCP\",\"maker.ifttt.com\",80", 0) // connect to website server
+            sendAT("AT+CIPSTART=\"TCP\",\"" + ip + "\",80", 0) // connect to website server
             ifttt_connected = waitResponse("OK")
             basic.pause(100)
             if (ifttt_connected) {
