@@ -90,9 +90,9 @@ namespace ESP8266_SUPER_CONNECT {
         if (wifi_connected && event_name != "" && key != "") {
             ifttt_connected = false
             sendAT("AT+CIPSTART=\"TCP\",\"maker.ifttt.com\",80", 0) // connect to website server
-            thingspeak_connected = waitResponse("OK")
+            ifttt_connected = waitResponse("OK")
             basic.pause(100)
-            if (thingspeak_connected) {
+            if (ifttt_connected) {
                 last_upload_successful = false
                 let str: string = "GET /trigger/"+event_name+"/with/key/"+key+"?value1="+value
                 sendAT("AT+CIPSEND=" + (str.length + 2))
