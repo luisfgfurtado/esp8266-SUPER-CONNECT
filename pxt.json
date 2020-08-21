@@ -1,6 +1,7 @@
 {
-    "name": "ESP8266",
-    "description": "",
+    "name": "ESP8266-SUPER-CONNECT",
+    "version": "0.1.0",
+    "description": "Blocks to simplify using ESP8266 to send data to ThingSpeak and IFTTT",
     "dependencies": {
         "core": "*",
         "radio": "*"
