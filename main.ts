@@ -83,7 +83,7 @@ namespace ESP8266_SUPER_CONNECT {
     * Connect to IFTTT and call a Webhook. It would not call anything if it failed to connect to Wifi or IFTTT.
     */
     //% block="IFTTT Webhook|URL/IP = %ip|Event name = %event_name|Key = %key|Value = %value"
-    //% ip.defl=maker.ifttt.com
+    //% ip.defl=http://maker.ifttt.com
     //% event_name.defl=your_event_name
     //% key.defl=your_key
     //% value.defl=value
@@ -95,7 +95,7 @@ namespace ESP8266_SUPER_CONNECT {
             basic.pause(100)
             if (ifttt_connected) {
                 last_upload_successful = false
-                let str: string = "POST "+ip+"/trigger/"+event_name+"/with/key/"+key+"?value1="+value
+                let str: string = "POST " + ip + "/trigger/"+event_name+"/with/key/"+key+"?value1="+value
                 sendAT("AT+CIPSEND=" + (str.length + 2))
                 sendAT(str, 0) // upload data
                 last_upload_successful = waitResponse("OK")
