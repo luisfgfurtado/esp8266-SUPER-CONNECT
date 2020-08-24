@@ -95,7 +95,7 @@ namespace ESP8266_SUPER_CONNECT {
             basic.pause(100)
             if (ifttt_connected) {
                 last_upload_successful = false
-                let str: string = "POST /trigger/"+event_name+"/with/key/"+key+"?value1="+value
+                let str: string = "POST "+ip+"/trigger/"+event_name+"/with/key/"+key+"?value1="+value
                 sendAT("AT+CIPSEND=" + (str.length + 2))
                 sendAT(str, 0) // upload data
                 last_upload_successful = waitResponse("OK")
